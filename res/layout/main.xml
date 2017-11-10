@@ -94,7 +94,7 @@
                     android:textColor="#fff"
                     android:textAllCaps="true"
                     android:paddingLeft="10dp"
-                    android:text="jtsuji@hubspot.com"/>
+                    android:text="500"/>
 
             </LinearLayout>
 

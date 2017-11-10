@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="wrap_content"
+                android:layout_height="300dp"
+                android:gravity="center">
+
+	<ListView android:id="@+id/bidsheet_list"
+	          android:layout_width="wrap_content"
+	          android:layout_height="match_parent"
+	          tools:listitem="@layout/bid"
+	          android:divider="#ffaaaaaa"
+	          android:dividerHeight="1px"
+	          android:layout_margin="10dp">
+	</ListView>
+
+</RelativeLayout>

@@ -1,7 +1,8 @@
 package com.hsdemo.auction.models;
 
-import com.parse.ParseClassName;
-import com.parse.ParseObject;
+import com.google.api.client.util.Key;
+import com.kinvey.java.LinkedResources.LinkedGenericJson;
+import com.kinvey.java.model.KinveyMetaData;
 
 import java.util.Date;
 
@@ -9,13 +10,27 @@ import java.util.Date;
  * Created by jtsuji on 11/14/14.
  */
 
-@ParseClassName("NewBid")
-public class Bid extends ParseObject {
+public class Bid extends LinkedGenericJson {
 
   public static final String INITIAL_BIDDER_EMAIL = "";
   public static final String INITIAL_BIDDER_NAME = "Starting Price";
 
   public long createdAt = 0;
+
+  @Key("_id")
+  private String entityId;
+  @Key("email")
+  private String email;
+  @Key("name")
+  private String name;
+  @Key("bidderNumber")
+  private String bidderNumber;
+  @Key("amt")
+  private int amount;
+  @Key("itemId")
+  private String itemId;
+  @Key(KinveyMetaData.JSON_FIELD_NAME)
+  private KinveyMetaData meta;
 
   public Bid() {}
 
@@ -27,39 +42,50 @@ public class Bid extends ParseObject {
     return bid;
   }
 
+/*
   public Date getCreatedAtDate() {
-    return getCreatedAt() == null ? new Date(createdAt) : getCreatedAt();
+//    return getCreatedAt() == null ? new Date(createdAt) : getCreatedAt();
+    return new Date(createdAt);
   }
+*/
 
   public String getEmail() {
-    return getString("email");
+    return email;
   }
 
   public void setEmail(String email) {
-    put("email", email);
+    this.email = email;
   }
 
   public int getAmount() {
-    return getInt("amt");
+    return amount;
   }
 
   public void setAmount(int amt) {
-    put("amt", amt);
+    this.amount = amt;
   }
 
   public String getName() {
-    return getString("name");
+    return name;
   }
 
   public void setName(String name) {
-    put("name", name);
+    this.name = name;
+  }
+
+  public String getBidderNumber() {
+    return bidderNumber;
+  }
+
+  public void setBidderNumber(String bidderNumber) {
+    this.bidderNumber = bidderNumber;
   }
 
   public String getRelatedItemId() {
-    return getString("item");
+    return itemId;
   }
 
   public void setRelatedItemId(String id) {
-    put("item", id);
+    this.itemId = id;
   }
 }

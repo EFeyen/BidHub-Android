@@ -4,7 +4,8 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:focusable="false"
-                android:background="#ffffff">
+                android:background="#ffffff"
+    >
 
     <android.support.v7.widget.Toolbar
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -24,50 +25,61 @@
         android:orientation="vertical"
         android:background="#88000000"/>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:id="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg"
-        android:layout_above="@+id/logincontainer"/>
-
     <LinearLayout
+        android:id="@+id/signupcontainer"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_above="@+id/logincontainer"
-        android:background="#ccaaaaaa" />
-
-    <LinearLayout
-        android:id="@+id/logincontainer"
-        android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="match_parent"
         android:background="#88000000"
         android:orientation="vertical"
-        android:padding="20dp"
-        android:gravity="center_vertical"
         android:fitsSystemWindows="true"
-        android:layout_alignParentBottom="true">
-
+        android:layout_alignParentBottom="true"
+        android:paddingTop="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="20dp"
+        android:gravity="center_vertical">
 
 
         <TextView style="@style/basefont_light"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#bbeeeeee"
-            android:textSize="22sp"
-            android:text="Login"/>
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColor="#bbeeeeee"
+                  android:textSize="22sp"
+                  android:text="Signup"/>
 
-        <EditText style="@style/basefont_light"
-                  android:id="@+id/email"
+        <EditText
+            style="@style/basefont_light"
+            android:id="@+id/first_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:nextFocusForward="@+id/password"
+            android:nextFocusForward="@+id/last_name"
             android:singleLine="true"
-            android:hint="enter bidder number or email"
-                  android:inputType="textEmailAddress"/>
+            android:hint="enter first name"
+            android:inputType="textPersonName"
+            android:layout_gravity="center_horizontal"/>
+
+        <EditText
+            style="@style/basefont_light"
+            android:id="@+id/last_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:nextFocusForward="@+id/email"
+            android:singleLine="true"
+            android:hint="enter last name"
+            android:layout_gravity="center_horizontal"
+            android:inputType="textPersonName"/>
+
+        <EditText style="@style/basefont_light"
+                  android:id="@+id/email"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="10dp"
+                  android:nextFocusForward="@+id/password"
+                  android:singleLine="true"
+                  android:hint="enter email"
+                  android:inputType="textEmailAddress" />
 
         <EditText style="@style/basefont_light"
                   android:id="@+id/password"
@@ -77,6 +89,16 @@
                   android:singleLine="true"
             android:nextFocusForward="@+id/gobutton"
             android:inputType="textPassword" />
+
+        <TextView
+            style="@style/basefont_light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#bbeeeeee"
+            android:textSize="20sp"
+            android:text="A bidder number will be assigned to you after you sign up. You will not be able to bid on any items until your bidder number has been assigned."
+            android:id="@+id/TextView2"
+            android:textIsSelectable="false"/>
 
         <Button
             android:id="@+id/gobutton"
@@ -89,13 +111,13 @@
 
         <Button
             style="@style/basefont_light"
-            android:id="@+id/signupbutton"
+            android:id="@+id/cancel"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:text="Sign Up"
-            android:layout_gravity="center_horizontal"/>
+            android:text="Cancel"
+            />
 
 
     </LinearLayout>
@@ -103,7 +125,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/logincontainer"
+        android:layout_below="@+id/signupcontainer"
         android:background="#ccaaaaaa" />
 
 </RelativeLayout>

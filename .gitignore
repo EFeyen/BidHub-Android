@@ -26,3 +26,7 @@ proguard/
 
 # Log Files
 *.log
+
+# Service Configs
+kinvey.properties
+google-services.json

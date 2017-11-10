@@ -3,9 +3,12 @@ package com.hsdemo.auction.models;
 import android.app.Activity;
 
 import com.hsdemo.auction.IdentityManager;
-import com.parse.ParseClassName;
-import com.parse.ParseObject;
+import com.google.api.client.util.Key;
+import com.kinvey.java.LinkedResources.LinkedGenericJson;
+import com.kinvey.java.model.KinveyMetaData;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,65 +19,108 @@ import java.util.List;
  * Created by jtsuji on 11/14/14.
  */
 
-@ParseClassName("Item")
-public class AuctionItem extends ParseObject {
+public class AuctionItem extends LinkedGenericJson {
+
+  @Key("_id")
+  private String entityId;
+  @Key("name")
+  private String name;
+  @Key("price")
+  private int price;
+  @Key("priceIncrement")
+  private int priceIncrement;
+  @Key("currentPrice")
+  private List<Integer> currentPrice;
+  @Key("currentWinners")
+  private List<String> currentWinners;
+  @Key("allBidders")
+  private List<String> allBidders;
+  @Key("numberOfBids")
+  private int numberOfBids;
+  @Key("donorname")
+  private String donorName;
+  @Key("donorurl")
+  private String donorUrl;
+  @Key("imageurl")
+  private String imageUrl;
+  @Key("decription")
+  private String itemDescription;
+  @Key("qty")
+  private int quantity;
+  @Key("opentime")
+  private String openTime;
+  @Key("closetime")
+  private String closeTime;
+  @Key(KinveyMetaData.JSON_FIELD_NAME)
+  private KinveyMetaData meta;
+
+  private List<Bid> allBids;
+
+  SimpleDateFormat kinveyDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz");
 
   public AuctionItem() {}
 
-  public String getName() {
-    return getString("name");
+  public String getEntityId() {
+    return entityId;
   }
 
-  public void setName(String name) {
-    put("name", name);
+  public String getName() {
+    return name;
   }
 
   public String getDescription() {
-    return getString("description");
-  }
-
-  public void setDescription(String description) {
-    put("description", description);
+    return itemDescription.replaceAll("[\n]", "<br>");
   }
 
   public String getDonorName() {
-    return getString("donorname");
+    return donorName;
   }
 
-  public void setDonorName(String donorName) {
-    put("donorname", donorName);
+  public String getDonorUrl() {
+    return donorUrl;
   }
 
   public String getImageUrl() {
-    return getString("imageurl");
-  }
-
-  public void setImageUrl(String imageUrl) {
-    put("imageurl", imageUrl);
+    return imageUrl;
   }
 
   public int getStartingPrice() {
-    return getInt("price");
+    return price;
   }
 
-  public void setStartingPrice(int startingPrice) {
-    put("price", startingPrice);
+  public int getPriceIncrement() {
+    return priceIncrement;
   }
 
   public Date getOpenTime() {
-    return getDate("opentime");
+    Date returnDate = new Date();
+    try {
+      returnDate = kinveyDateFormat.parse(openTime+"GMT");
+    }
+    catch (ParseException e) {
+      e.printStackTrace();
+    }
+    return returnDate;
   }
 
   public Date getCloseTime() {
-    return getDate("closetime");
+    Date returnDate = new Date();
+    try {
+      returnDate =  kinveyDateFormat.parse(closeTime+"GMT");
+    }
+    catch (ParseException e) {
+      e.printStackTrace();
+    }
+    return returnDate;
   }
 
   public boolean isOpenForBidding() {
-    return !(getOpenTime().after(new Date()) || getCloseTime().before(new Date()));
+//    return !(getOpenTime().after(new Date()) || getCloseTime().before(new Date()));
+    return (getOpenTime().before(new Date()) && getCloseTime().after(new Date()));
   }
 
   public List<Integer> getAllBids() {
-    List<Integer> bids = getListOrEmptyList("currentPrice");
+    List<Integer> bids = getListOrEmptyList(currentPrice);
     Collections.sort(bids, new Comparator<Integer>() {
       @Override
       public int compare(Integer lhs, Integer rhs) {
@@ -85,16 +131,26 @@ public class AuctionItem extends ParseObject {
     return bids;
   }
 
+	public List<Bid> getBids()
+	{
+		return allBids;
+	}
+
+	public void setBids(List<Bid> bids)
+	{
+		allBids = bids;
+	}
+
   public List<String> getCurrentWinners() {
-    return getListOrEmptyList("currentWinners");
+    return getListOrEmptyList(currentWinners);
   }
 
   public int getNumberOfBids() {
-    return getInt("numberOfBids");
+    return numberOfBids;
   }
 
   public int getQty() {
-    return getInt("qty");
+    return quantity;
   }
 
   public int getCurrentHighestBid() {
@@ -112,7 +168,7 @@ public class AuctionItem extends ParseObject {
   }
 
   public List<String> getAllBidders() {
-    return getListOrEmptyList("allBidders");
+    return getListOrEmptyList(allBidders);
   }
 
   public boolean hasUserBid(Activity context) {
@@ -127,9 +183,8 @@ public class AuctionItem extends ParseObject {
     return getCurrentWinners().indexOf(IdentityManager.getEmail(context)) + 1;
   }
 
-  public List getListOrEmptyList(String key) {
-    List list = getList(key);
-    if (list == null)
+  public List getListOrEmptyList(List<?> list) {
+    if (list.size() == 0)
       return new ArrayList();
     else
       return list;
